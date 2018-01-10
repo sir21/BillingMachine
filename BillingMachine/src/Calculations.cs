@@ -7,9 +7,11 @@ namespace BillingMachine
 {
     public class Calculations: ICalculations
     {
-
+        private int _callDiscountDurationForPackageB, _callDiscountDurationForPackageC;
         public Calculations()
         {
+            _callDiscountDurationForPackageB = 60;
+            _callDiscountDurationForPackageC = 60;
         }
 
         public double GenaratineCallCharge(double callCharge, Package package, int duration, DateTime startTime, DateTime endTime, bool isLong, bool isPerMin)
@@ -25,6 +27,7 @@ namespace BillingMachine
                 peak = package.ChargeLocalPeak;
                 offPeak = package.ChargeLocalOffPeak;
             }
+
             // check call duration is more than 1 day
             if ((endTime - startTime).Days > 0)
             {
@@ -50,10 +53,15 @@ namespace BillingMachine
                     return callCharge + CalculateChargeForCallperSecond(duration, peak);
             }
             else if (IsPeakCall(startTime, endTime, package) == 2)
+            {
+                //check for discounts
+                if (package.Name == "Package B" && !isLong)
+                    duration = FreeCallTime(duration, _callDiscountDurationForPackageB);
                 if (isPerMin)
                     return callCharge + CalculateChargeForCallperMin(duration, offPeak);
                 else
                     return callCharge + CalculateChargeForCallperSecond(duration, offPeak);
+            }
             else if (IsPeakCall(startTime, endTime, package) == 3)
             {
                 /*
@@ -74,7 +82,7 @@ namespace BillingMachine
                     return callCharge + peakTime * peak + offPeakTime * offPeak;
                 }
             }
-            else if(IsPeakCall(startTime, endTime, package) == 4)
+            else if (IsPeakCall(startTime, endTime, package) == 4)
             {
                 /*
                  * first calculate the peak time period
@@ -91,16 +99,18 @@ namespace BillingMachine
                 {
                     peakTime = MathF.Ceiling(Convert.ToSingle((endTime.TimeOfDay - package.PeakStartTime).TotalSeconds));
                     offPeakTime = MathF.Ceiling(Convert.ToSingle((package.PeakStartTime - startTime.TimeOfDay).TotalSeconds));
+                    if (package.Name == "Package B" && !isLong)
+                        offPeakTime = FreeCallTime((int)offPeakTime, _callDiscountDurationForPackageB);
                 }
                 return callCharge + peakTime * peak + offPeakTime * offPeak;
             }
-            else if(IsPeakCall(startTime, endTime, package) == 5)
+            else if (IsPeakCall(startTime, endTime, package) == 5)
             {
                 /*
                  * If start in peak and end peak and call is more than 12 hours for sure call has been passed through
                  * a off-peak period for 12 hours. 
                  * we can get peak time value and genarate charges
-                 */ 
+                 */
                 double peakTime;
                 callCharge += offPeak * 12 * 60;
                 if (isPerMin)
@@ -133,6 +143,8 @@ namespace BillingMachine
                 {
                     offPeakTime = MathF.Ceiling(Convert.ToSingle((package.PeakStartTime - startTime.TimeOfDay).TotalSeconds));
                     offPeakTime += MathF.Ceiling(Convert.ToSingle((endTime.TimeOfDay - package.PeakEndTime).TotalSeconds));
+                    if (package.Name == "Package B" && !isLong)
+                        offPeakTime = FreeCallTime((int)offPeakTime, _callDiscountDurationForPackageB);
                 }
                 return callCharge + offPeakTime * offPeak;
             }
@@ -176,6 +188,8 @@ namespace BillingMachine
             }
             else
             {
+                if (package.Name == "Package C")
+                    startTime = FreeCallTime(startTime, endTime, _callDiscountDurationForPackageC);
                 return GenaratineCallCharge(0, package, duration, startTime, endTime, false, true);
             }
         }
@@ -247,6 +261,23 @@ namespace BillingMachine
                         return 2;
                 }
             }
+        }
+
+        //Package B and C discount
+        public int FreeCallTime(int duration, int freeSeconds)
+        {
+            duration -= freeSeconds;
+            if (duration < 0)
+                duration = 0;
+            return duration;
+        }
+        private DateTime FreeCallTime(DateTime startTime, DateTime endTime, int freeSeconds)
+        {
+            startTime = startTime.AddSeconds(freeSeconds);
+            if (startTime > endTime)
+                startTime = endTime;
+
+            return startTime;
         }
     }
 }

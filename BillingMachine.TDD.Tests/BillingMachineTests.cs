@@ -449,5 +449,87 @@ namespace BillingMachine.TDD.Tests
             Assert.AreEqual(expected_startPeak, output_startPeak, "Start times are not matching");
             Assert.AreEqual(expected_endPeak, output_endPeak, "End times are not matching");
         }
+
+        [TestMethod]
+        public void OnCalculating_InPackageB_RemoveChargesForFirstMinute()
+        {
+            //Arrange
+            int input = 430;
+            int expected = 370;
+            int freeDuration = 60;
+
+            //Act
+            int output = _calculations.FreeCallTime(input, freeDuration);
+
+            //Assert
+            Assert.AreEqual(expected, output, "Output is wrong");
+        }
+
+        [TestMethod]
+        public void OnCalculating_InPackageB_ChargesShouldCalculatedWithDiscounts()
+        {
+            //Arrange
+            double expected = 30.55;
+            Package package = new Package
+            {
+                Name = "Package B",
+                MonthlyRental = 100,
+                BillingType = BillType.PerSecond,
+                ChargeLocalPeak = 5,
+                ChargeLocalOffPeak = 3,
+                ChargeLongPeak = 6,
+                ChargeLongOffPeak = 4,
+                PeakStartTime = new TimeSpan(8, 0, 0),
+                PeakEndTime = new TimeSpan(20, 0, 0)
+            };
+
+            //Act
+            double output = _calculations.GenaratineCallCharge(0, package, 671, new DateTime(2017, 5, 20, 4, 52, 21), new DateTime(2017, 5, 20, 5, 3, 32), false, false);
+
+            //Assert
+            Assert.AreEqual(expected, output, "Output is wrong");
+        }
+
+        [TestMethod]
+        public void OnCalculating_InPackageC_ChargesShouldCalculatedWithDiscounts()
+        {
+            //Arrange
+            double expected = 22;
+
+            CDR cdr = new CDR
+            {
+                StartingTime = new DateTime(2017, 5, 24, 13, 52, 21),
+                CallDuration = 671,
+                CalledParty = new PhoneNumber
+                {
+                    Extention = 051,
+                    Unique = 6742423
+                },
+                CallingParty = new PhoneNumber
+                {
+                    Extention = 051,
+                    Unique = 2141232
+                }
+            };
+
+            Package package = new Package
+            {
+                Name = "Package C",
+                MonthlyRental = 300,
+                BillingType = BillType.PerMinute,
+                ChargeLocalPeak = 2,
+                ChargeLocalOffPeak = 1,
+                ChargeLongPeak = 3,
+                ChargeLongOffPeak = 2,
+                PeakStartTime = new TimeSpan(9, 0, 0),
+                PeakEndTime = new TimeSpan(18, 0, 0)
+            };
+
+            //Act
+            double output = _calculations.CalculateChargeMinite(cdr, package);
+
+            //Assert
+            Assert.AreEqual(expected, output, "Output is wrong");
+        }
     }
 }
