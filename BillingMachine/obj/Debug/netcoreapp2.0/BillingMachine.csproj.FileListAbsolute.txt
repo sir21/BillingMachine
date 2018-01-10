@@ -1,0 +1,13 @@
+C:\Users\sir\source\repos\BillingMachine\BillingMachine\bin\Debug\netcoreapp2.0\BillingMachine.deps.json
+C:\Users\sir\source\repos\BillingMachine\BillingMachine\bin\Debug\netcoreapp2.0\BillingMachine.runtimeconfig.json
+C:\Users\sir\source\repos\BillingMachine\BillingMachine\bin\Debug\netcoreapp2.0\BillingMachine.runtimeconfig.dev.json
+C:\Users\sir\source\repos\BillingMachine\BillingMachine\bin\Debug\netcoreapp2.0\BillingMachine.dll
+C:\Users\sir\source\repos\BillingMachine\BillingMachine\bin\Debug\netcoreapp2.0\BillingMachine.pdb
+C:\Users\sir\source\repos\BillingMachine\BillingMachine\bin\Debug\netcoreapp2.0\Newtonsoft.Json.dll
+C:\Users\sir\source\repos\BillingMachine\BillingMachine\bin\Debug\netcoreapp2.0\Newtonsoft.Json.xml
+C:\Users\sir\source\repos\BillingMachine\BillingMachine\obj\Debug\netcoreapp2.0\BillingMachine.csprojResolveAssemblyReference.cache
+C:\Users\sir\source\repos\BillingMachine\BillingMachine\obj\Debug\netcoreapp2.0\BillingMachine.csproj.CoreCompileInputs.cache
+C:\Users\sir\source\repos\BillingMachine\BillingMachine\obj\Debug\netcoreapp2.0\BillingMachine.AssemblyInfoInputs.cache
+C:\Users\sir\source\repos\BillingMachine\BillingMachine\obj\Debug\netcoreapp2.0\BillingMachine.AssemblyInfo.cs
+C:\Users\sir\source\repos\BillingMachine\BillingMachine\obj\Debug\netcoreapp2.0\BillingMachine.dll
+C:\Users\sir\source\repos\BillingMachine\BillingMachine\obj\Debug\netcoreapp2.0\BillingMachine.pdb

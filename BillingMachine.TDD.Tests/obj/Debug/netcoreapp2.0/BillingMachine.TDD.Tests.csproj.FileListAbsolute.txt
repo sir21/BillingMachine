@@ -1,0 +1,16 @@
+C:\Users\sir\source\repos\BillingMachine\BillingMachine.TDD.Tests\bin\Debug\netcoreapp2.0\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\Users\sir\source\repos\BillingMachine\BillingMachine.TDD.Tests\bin\Debug\netcoreapp2.0\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\Users\sir\source\repos\BillingMachine\BillingMachine.TDD.Tests\bin\Debug\netcoreapp2.0\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\Users\sir\source\repos\BillingMachine\BillingMachine.TDD.Tests\bin\Debug\netcoreapp2.0\BillingMachine.TDD.Tests.deps.json
+C:\Users\sir\source\repos\BillingMachine\BillingMachine.TDD.Tests\bin\Debug\netcoreapp2.0\BillingMachine.TDD.Tests.runtimeconfig.json
+C:\Users\sir\source\repos\BillingMachine\BillingMachine.TDD.Tests\bin\Debug\netcoreapp2.0\BillingMachine.TDD.Tests.runtimeconfig.dev.json
+C:\Users\sir\source\repos\BillingMachine\BillingMachine.TDD.Tests\bin\Debug\netcoreapp2.0\BillingMachine.TDD.Tests.dll
+C:\Users\sir\source\repos\BillingMachine\BillingMachine.TDD.Tests\bin\Debug\netcoreapp2.0\BillingMachine.TDD.Tests.pdb
+C:\Users\sir\source\repos\BillingMachine\BillingMachine.TDD.Tests\bin\Debug\netcoreapp2.0\BillingMachine.dll
+C:\Users\sir\source\repos\BillingMachine\BillingMachine.TDD.Tests\bin\Debug\netcoreapp2.0\BillingMachine.pdb
+C:\Users\sir\source\repos\BillingMachine\BillingMachine.TDD.Tests\obj\Debug\netcoreapp2.0\BillingMachine.TDD.Tests.csprojResolveAssemblyReference.cache
+C:\Users\sir\source\repos\BillingMachine\BillingMachine.TDD.Tests\obj\Debug\netcoreapp2.0\BillingMachine.TDD.Tests.csproj.CoreCompileInputs.cache
+C:\Users\sir\source\repos\BillingMachine\BillingMachine.TDD.Tests\obj\Debug\netcoreapp2.0\BillingMachine.TDD.Tests.AssemblyInfoInputs.cache
+C:\Users\sir\source\repos\BillingMachine\BillingMachine.TDD.Tests\obj\Debug\netcoreapp2.0\BillingMachine.TDD.Tests.AssemblyInfo.cs
+C:\Users\sir\source\repos\BillingMachine\BillingMachine.TDD.Tests\obj\Debug\netcoreapp2.0\BillingMachine.TDD.Tests.dll
+C:\Users\sir\source\repos\BillingMachine\BillingMachine.TDD.Tests\obj\Debug\netcoreapp2.0\BillingMachine.TDD.Tests.pdb

@@ -1,0 +1,29 @@
+[
+ {
+   "ID": 1,
+   "FullName": "John",
+   "BillingAddress": "Colombo",
+   "PhoneNumberExt": 11,
+   "PhoneNumberUnq": 7883223,
+   "PackageCode": 1,
+   "Registereddate": 42653
+ },
+ {
+   "ID": 2,
+   "FullName": "Manel",
+   "BillingAddress": "Gampaha",
+   "PhoneNumberExt": 31,
+   "PhoneNumberUnq": 7732421,
+   "PackageCode": 1,
+   "Registereddate": 42798
+ },
+ {
+   "ID": 3,
+   "FullName": "Jane",
+   "BillingAddress": "Kandy",
+   "PhoneNumberExt": 81,
+   "PhoneNumberUnq": 9007214,
+   "PackageCode": 1,
+   "Registereddate": 42878
+ }
+]
