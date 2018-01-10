@@ -9,7 +9,7 @@ namespace BillingMachine
     {
         double CalculateChargeSecond(CDR item, Package package);
         double CalculateChargeMinite(CDR item, Package package);
-        int IsPeakCall(DateTime start, DateTime end);
-        double GenaratineCallCharge(double callCharge, float peak, float offPeak, int duration, DateTime startTime, DateTime endTime, bool isPerMin);
+        int IsPeakCall(DateTime start, DateTime end, Package package);
+        double GenaratineCallCharge(double callCharge, Package package, int duration, DateTime startTime, DateTime endTime, bool isLong, bool isPerMin);
     }
 }

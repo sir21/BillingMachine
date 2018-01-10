@@ -184,6 +184,16 @@ namespace BillingMachine
                 int.TryParse(values[4], out int localOffPeak);
                 int.TryParse(values[5], out int longPeak);
                 int.TryParse(values[6], out int longOffPeak);
+                var startTepmString = values[7].Split('-');
+                var endTepmString = values[8].Split('-');
+                int.TryParse(startTepmString[0], out int startHour);
+                int.TryParse(startTepmString[1], out int startMinute);
+                int.TryParse(startTepmString[2], out int startSecond);
+                int.TryParse(endTepmString[0], out int endHour);
+                int.TryParse(endTepmString[1], out int endMinute);
+                int.TryParse(endTepmString[2], out int endSecond);
+                TimeSpan peakStartTime = new TimeSpan(startHour, startMinute, startSecond);
+                TimeSpan peakEndTime = new TimeSpan(endHour, endMinute, endSecond);
 
                 //creating new package
                 Package package = new Package
@@ -194,7 +204,9 @@ namespace BillingMachine
                     ChargeLocalPeak = localPeak,
                     ChargeLocalOffPeak = localOffPeak,
                     ChargeLongPeak = longPeak,
-                    ChargeLongOffPeak = longOffPeak
+                    ChargeLongOffPeak = longOffPeak,
+                    PeakStartTime = peakStartTime,
+                    PeakEndTime = peakEndTime
                 };
 
                 return package;

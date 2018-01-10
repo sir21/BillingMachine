@@ -115,7 +115,7 @@ namespace BillingMachine.TDD.Tests
         {
             //Arrange
             int cutomerID = 1;
-            List<double> expect = new List<double> { 4, 10, 16, 15 };
+            List<double> expect = new List<double> { 4, 10, 16, 12 };
 
             //Act
             List<double> output = _sut.ChargersCalculate(cutomerID);
@@ -129,7 +129,7 @@ namespace BillingMachine.TDD.Tests
         {
             //Arrange
             int expectedCount = 6;
-            List<double> expectedBillAmount = new List<double> { 174, 178.8, 174, 134.4, 123.44, 382.8 };
+            List<double> expectedBillAmount = new List<double> { 170.4, 168, 170.4, 133.2, 123.44, 380.4 };
 
             //Act
             List<Customer> output = _sut.Generate();
@@ -151,7 +151,7 @@ namespace BillingMachine.TDD.Tests
         public void OnCalculating_WhenCustomerPhoneNumberIsProvided_ShouldReturnLastBillOfThatCustomer()
         {
             //Arrange
-            List<double> expectedBillAmount = new List<double> { 174 };
+            List<double> expectedBillAmount = new List<double> { 170.4 };
             List<double> outBillAmount = new List<double> ();
 
             //Act
@@ -173,7 +173,7 @@ namespace BillingMachine.TDD.Tests
         {
             //Arrange
             int expectedCount = 6;
-            List<double> expectedBillAmount = new List<double> { 174, 178.8, 174, 134.4, 123.44, 382.8 };
+            List<double> expectedBillAmount = new List<double> { 170.4, 168, 170.4, 133.2, 123.44, 380.4 };
 
             //Act
             List<Customer> output = _sut.Generate();
@@ -215,7 +215,9 @@ namespace BillingMachine.TDD.Tests
                 ChargeLocalPeak = 3,
                 ChargeLocalOffPeak = 2,
                 ChargeLongPeak = 5,
-                ChargeLongOffPeak = 4
+                ChargeLongOffPeak = 4,
+                PeakStartTime = new TimeSpan(8,0,0),
+                PeakEndTime = new TimeSpan(20,0,0)
             };
 
             //Act
@@ -248,7 +250,9 @@ namespace BillingMachine.TDD.Tests
                 ChargeLocalPeak = 3,
                 ChargeLocalOffPeak = 2,
                 ChargeLongPeak = 5,
-                ChargeLongOffPeak = 4
+                ChargeLongOffPeak = 4,
+                PeakStartTime = new TimeSpan(8, 0, 0),
+                PeakEndTime = new TimeSpan(20, 0, 0)
             };
 
             //Act
@@ -281,7 +285,9 @@ namespace BillingMachine.TDD.Tests
                 ChargeLocalPeak = 3,
                 ChargeLocalOffPeak = 2,
                 ChargeLongPeak = 5,
-                ChargeLongOffPeak = 4
+                ChargeLongOffPeak = 4,
+                PeakStartTime = new TimeSpan(8, 0, 0),
+                PeakEndTime = new TimeSpan(20, 0, 0)
             };
 
             //Act
@@ -296,7 +302,7 @@ namespace BillingMachine.TDD.Tests
         {
             //Arrange
             int expectedCount = 6;
-            List<double> expectedBillAmount = new List<double> { 174, 178.8, 174, 134.4, 123.44, 382.8 };
+            List<double> expectedBillAmount = new List<double> { 170.4, 168, 170.4, 133.2, 123.44, 380.4 };
 
             //Act
             List<Customer> output = _sut.Generate();
@@ -321,9 +327,14 @@ namespace BillingMachine.TDD.Tests
             double expected = 6;
             DateTime input_startTime = new DateTime(2017, 5, 29, 05, 45, 32);
             DateTime input_endTime = new DateTime(2017, 5, 29, 22, 45, 32);
+            Package package = new Package
+            {
+                PeakStartTime = new TimeSpan(8,0,0),
+                PeakEndTime = new TimeSpan(20,0,0)
+            };
 
             //Act
-            double output = _calculations.IsPeakCall(input_startTime, input_endTime);
+            double output = _calculations.IsPeakCall(input_startTime, input_endTime, package);
 
             //Assert
             Assert.AreEqual(expected, output, "Not matching");
@@ -337,11 +348,21 @@ namespace BillingMachine.TDD.Tests
             DateTime input_startTime = new DateTime(2017, 5, 29, 05, 45, 32);
             DateTime input_endTime = new DateTime(2017, 5, 29, 22, 45, 32);
             int input_duration = 61200;
-            float input_peak = 5.0f;
-            float input_offPeak = 4.0f;
+            Package package = new Package
+            {
+                Name = "Package A",
+                MonthlyRental = 100,
+                BillingType = BillType.PerMinute,
+                ChargeLocalPeak = 3,
+                ChargeLocalOffPeak = 2,
+                ChargeLongPeak = 5,
+                ChargeLongOffPeak = 4,
+                PeakStartTime = new TimeSpan(8, 0, 0),
+                PeakEndTime = new TimeSpan(20, 0, 0)
+            };
 
             //Act
-            double output = _calculations.GenaratineCallCharge(0, input_peak, input_offPeak, input_duration, input_startTime, input_endTime, true);
+            double output = _calculations.GenaratineCallCharge(0, package, input_duration, input_startTime, input_endTime, true, true);
 
             //Assert
             Assert.AreEqual(expected, output, "Not matching");
@@ -355,11 +376,21 @@ namespace BillingMachine.TDD.Tests
             DateTime input_startTime = new DateTime(2017, 5, 29, 13, 55, 32);
             DateTime input_endTime = new DateTime(2017, 5, 29, 11, 55, 32);
             int input_duration = 79200;
-            float input_peak = 5.0f;
-            float input_offPeak = 4.0f;
+            Package package = new Package
+            {
+                Name = "Package A",
+                MonthlyRental = 100,
+                BillingType = BillType.PerMinute,
+                ChargeLocalPeak = 3,
+                ChargeLocalOffPeak = 2,
+                ChargeLongPeak = 5,
+                ChargeLongOffPeak = 4,
+                PeakStartTime = new TimeSpan(8, 0, 0),
+                PeakEndTime = new TimeSpan(20, 0, 0)
+            };
 
             //Act
-            double output = _calculations.GenaratineCallCharge(0, input_peak, input_offPeak, input_duration, input_startTime, input_endTime, true);
+            double output = _calculations.GenaratineCallCharge(0, package, input_duration, input_startTime, input_endTime, true, true);
 
             //Assert
             Assert.AreEqual(expected, output, "Not matching");
@@ -381,6 +412,42 @@ namespace BillingMachine.TDD.Tests
 
             //Assert
             CollectionAssert.AreEqual(expected, output, "Elements are not matching");
+        }
+
+        [TestMethod]
+        public void OnPackages_ShouldReturnOwnPeakAndOffPeakTimesForPackageA()
+        {
+            //Arrange
+            TimeSpan expected_startPeak = new TimeSpan(10, 0, 0);
+            TimeSpan expected_endPeak = new TimeSpan(18, 0, 0);
+
+            //Act
+            List<Package> output_Result = _csvRead.ReadPackages();
+            Package output_Package = output_Result.Find(item => item.Name == "Package A");
+            TimeSpan output_startPeak = output_Package.PeakStartTime;
+            TimeSpan output_endPeak = output_Package.PeakEndTime;
+
+            //Assert
+            Assert.AreEqual(expected_startPeak, output_startPeak, "Start times are not matching");
+            Assert.AreEqual(expected_endPeak, output_endPeak, "End times are not matching");
+        }
+
+        [TestMethod]
+        public void OnPackages_ShouldReturnOwnPeakAndOffPeakTimesPackageC()
+        {
+            //Arrange
+            TimeSpan expected_startPeak = new TimeSpan(9, 0, 0);
+            TimeSpan expected_endPeak = new TimeSpan(18, 0, 0);
+
+            //Act
+            List<Package> output_Result = _csvRead.ReadPackages();
+            Package output_Package = output_Result.Find(item => item.Name == "Package C");
+            TimeSpan output_startPeak = output_Package.PeakStartTime;
+            TimeSpan output_endPeak = output_Package.PeakEndTime;
+
+            //Assert
+            Assert.AreEqual(expected_startPeak, output_startPeak, "Start times are not matching");
+            Assert.AreEqual(expected_endPeak, output_endPeak, "End times are not matching");
         }
     }
 }

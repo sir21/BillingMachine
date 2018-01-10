@@ -13,6 +13,8 @@ namespace BillingMachine.Entity
         public double ChargeLocalOffPeak { get; set; }
         public double ChargeLongPeak { get; set; }
         public double ChargeLongOffPeak { get; set; }
+        public TimeSpan PeakStartTime { get; set; }
+        public TimeSpan PeakEndTime { get; set; }
     }
 
     public enum BillType

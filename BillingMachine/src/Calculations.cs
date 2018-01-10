@@ -7,17 +7,24 @@ namespace BillingMachine
 {
     public class Calculations: ICalculations
     {
-        //Peak start and end
-        private TimeSpan _peakStart, _peakEnd;
 
         public Calculations()
         {
-            _peakStart = new TimeSpan(8, 0, 0);
-            _peakEnd = new TimeSpan(20, 0, 0);
         }
 
-        public double GenaratineCallCharge(double callCharge, float peak, float offPeak, int duration, DateTime startTime, DateTime endTime, bool isPerMin)
+        public double GenaratineCallCharge(double callCharge, Package package, int duration, DateTime startTime, DateTime endTime, bool isLong, bool isPerMin)
         {
+            double peak, offPeak;
+            if (isLong)
+            {
+                peak = package.ChargeLongPeak;
+                offPeak = package.ChargeLongOffPeak;
+            }
+            else
+            {
+                peak = package.ChargeLocalPeak;
+                offPeak = package.ChargeLocalOffPeak;
+            }
             // check call duration is more than 1 day
             if ((endTime - startTime).Days > 0)
             {
@@ -35,19 +42,19 @@ namespace BillingMachine
             6 - it start in off - peek and end in off - peak after 12 hours
             */
 
-            if (IsPeakCall(startTime, endTime) == 1)
+            if (IsPeakCall(startTime, endTime, package) == 1)
             {
                 if (isPerMin)
                     return callCharge + CalculateChargeForCallperMin(duration, peak);
                 else
                     return callCharge + CalculateChargeForCallperSecond(duration, peak);
             }
-            else if (IsPeakCall(startTime, endTime) == 2)
+            else if (IsPeakCall(startTime, endTime, package) == 2)
                 if (isPerMin)
                     return callCharge + CalculateChargeForCallperMin(duration, offPeak);
                 else
                     return callCharge + CalculateChargeForCallperSecond(duration, offPeak);
-            else if (IsPeakCall(startTime, endTime) == 3)
+            else if (IsPeakCall(startTime, endTime, package) == 3)
             {
                 /*
                  * first calculate the peak time period
@@ -56,18 +63,18 @@ namespace BillingMachine
                  */
                 if (isPerMin)
                 {
-                    double peakTime = MathF.Ceiling(Convert.ToSingle((_peakEnd - startTime.TimeOfDay).TotalMinutes));
-                    double offPeakTime = MathF.Ceiling(Convert.ToSingle((endTime.TimeOfDay - _peakEnd).TotalMinutes));
+                    double peakTime = MathF.Ceiling(Convert.ToSingle((package.PeakEndTime - startTime.TimeOfDay).TotalMinutes));
+                    double offPeakTime = MathF.Ceiling(Convert.ToSingle((endTime.TimeOfDay - package.PeakEndTime).TotalMinutes));
                     return callCharge + peakTime * peak + offPeakTime * offPeak;
                 }
                 else
                 {
-                    double peakTime = MathF.Ceiling(Convert.ToSingle((_peakEnd - startTime.TimeOfDay).TotalSeconds));
-                    double offPeakTime = MathF.Ceiling(Convert.ToSingle((endTime.TimeOfDay - _peakEnd).TotalSeconds));
+                    double peakTime = MathF.Ceiling(Convert.ToSingle((package.PeakEndTime - startTime.TimeOfDay).TotalSeconds));
+                    double offPeakTime = MathF.Ceiling(Convert.ToSingle((endTime.TimeOfDay - package.PeakEndTime).TotalSeconds));
                     return callCharge + peakTime * peak + offPeakTime * offPeak;
                 }
             }
-            else if(IsPeakCall(startTime, endTime) == 4)
+            else if(IsPeakCall(startTime, endTime, package) == 4)
             {
                 /*
                  * first calculate the peak time period
@@ -77,17 +84,17 @@ namespace BillingMachine
                 double peakTime, offPeakTime;
                 if (isPerMin)
                 {
-                    peakTime = MathF.Ceiling(Convert.ToSingle((endTime.TimeOfDay - _peakStart).TotalMinutes));
-                    offPeakTime = MathF.Ceiling(Convert.ToSingle((_peakStart - startTime.TimeOfDay).TotalMinutes));
+                    peakTime = MathF.Ceiling(Convert.ToSingle((endTime.TimeOfDay - package.PeakStartTime).TotalMinutes));
+                    offPeakTime = MathF.Ceiling(Convert.ToSingle((package.PeakStartTime - startTime.TimeOfDay).TotalMinutes));
                 }
                 else
                 {
-                    peakTime = MathF.Ceiling(Convert.ToSingle((endTime.TimeOfDay - _peakStart).TotalSeconds));
-                    offPeakTime = MathF.Ceiling(Convert.ToSingle((_peakStart - startTime.TimeOfDay).TotalSeconds));
+                    peakTime = MathF.Ceiling(Convert.ToSingle((endTime.TimeOfDay - package.PeakStartTime).TotalSeconds));
+                    offPeakTime = MathF.Ceiling(Convert.ToSingle((package.PeakStartTime - startTime.TimeOfDay).TotalSeconds));
                 }
                 return callCharge + peakTime * peak + offPeakTime * offPeak;
             }
-            else if(IsPeakCall(startTime, endTime) == 5)
+            else if(IsPeakCall(startTime, endTime, package) == 5)
             {
                 /*
                  * If start in peak and end peak and call is more than 12 hours for sure call has been passed through
@@ -98,13 +105,13 @@ namespace BillingMachine
                 callCharge += offPeak * 12 * 60;
                 if (isPerMin)
                 {
-                    peakTime = MathF.Ceiling(Convert.ToSingle((_peakEnd - startTime.TimeOfDay).TotalMinutes));
-                    peakTime += MathF.Ceiling(Convert.ToSingle((endTime.TimeOfDay - _peakStart).TotalMinutes));
+                    peakTime = MathF.Ceiling(Convert.ToSingle((package.PeakEndTime - startTime.TimeOfDay).TotalMinutes));
+                    peakTime += MathF.Ceiling(Convert.ToSingle((endTime.TimeOfDay - package.PeakStartTime).TotalMinutes));
                 }
                 else
                 {
-                    peakTime = MathF.Ceiling(Convert.ToSingle((_peakEnd - startTime.TimeOfDay).TotalSeconds));
-                    peakTime += MathF.Ceiling(Convert.ToSingle((endTime.TimeOfDay - _peakStart).TotalSeconds));
+                    peakTime = MathF.Ceiling(Convert.ToSingle((package.PeakEndTime - startTime.TimeOfDay).TotalSeconds));
+                    peakTime += MathF.Ceiling(Convert.ToSingle((endTime.TimeOfDay - package.PeakStartTime).TotalSeconds));
                 }
                 return callCharge + peakTime * peak;
             }
@@ -119,13 +126,13 @@ namespace BillingMachine
                 callCharge += peak * 12 * 60;
                 if (isPerMin)
                 {
-                    offPeakTime = MathF.Ceiling(Convert.ToSingle((_peakStart - startTime.TimeOfDay).TotalMinutes));
-                    offPeakTime += MathF.Ceiling(Convert.ToSingle((endTime.TimeOfDay - _peakEnd).TotalMinutes));
+                    offPeakTime = MathF.Ceiling(Convert.ToSingle((package.PeakStartTime - startTime.TimeOfDay).TotalMinutes));
+                    offPeakTime += MathF.Ceiling(Convert.ToSingle((endTime.TimeOfDay - package.PeakEndTime).TotalMinutes));
                 }
                 else
                 {
-                    offPeakTime = MathF.Ceiling(Convert.ToSingle((_peakStart - startTime.TimeOfDay).TotalSeconds));
-                    offPeakTime += MathF.Ceiling(Convert.ToSingle((endTime.TimeOfDay - _peakEnd).TotalSeconds));
+                    offPeakTime = MathF.Ceiling(Convert.ToSingle((package.PeakStartTime - startTime.TimeOfDay).TotalSeconds));
+                    offPeakTime += MathF.Ceiling(Convert.ToSingle((endTime.TimeOfDay - package.PeakEndTime).TotalSeconds));
                 }
                 return callCharge + offPeakTime * offPeak;
             }
@@ -141,16 +148,16 @@ namespace BillingMachine
             //Checking call is long or not and call genarate call charge using the genaratineCallCharge method
             if (IsCallLong(item))
             {
-                return GenaratineCallCharge(0, Convert.ToSingle(package.ChargeLongPeak), Convert.ToSingle(package.ChargeLongOffPeak), duration, startTime, endTime, false);
+                return GenaratineCallCharge(0, package, duration, startTime, endTime, true, false);
             }
             else
             {
-                return GenaratineCallCharge(0, Convert.ToSingle(package.ChargeLocalPeak), Convert.ToSingle(package.ChargeLocalOffPeak), duration, startTime, endTime, false);
+                return GenaratineCallCharge(0, package, duration, startTime, endTime, false, false);
             }
         }
 
         //mathematical calculations for per second call
-        internal double CalculateChargeForCallperSecond(int duration, float charge)
+        internal double CalculateChargeForCallperSecond(int duration, double charge)
         {
             return Convert.ToDouble(duration * (charge/60));
         }
@@ -165,16 +172,16 @@ namespace BillingMachine
             //Checking call is long or not and call genarate call charge using the genaratineCallCharge method
             if (IsCallLong(item))
             {
-                return GenaratineCallCharge(0, Convert.ToSingle(package.ChargeLongPeak), Convert.ToSingle(package.ChargeLongOffPeak), duration, startTime, endTime, true);
+                return GenaratineCallCharge(0, package, duration, startTime, endTime, true, true);
             }
             else
             {
-                return GenaratineCallCharge(0, Convert.ToSingle(package.ChargeLocalPeak), Convert.ToSingle(package.ChargeLocalOffPeak), duration, startTime, endTime, true);
+                return GenaratineCallCharge(0, package, duration, startTime, endTime, false, true);
             }
         }
 
         //mathematical calculations for per minite call
-        internal double CalculateChargeForCallperMin(int seconds, float charge)
+        internal double CalculateChargeForCallperMin(int seconds, double charge)
         {
             return Convert.ToDouble(MathF.Ceiling(Convert.ToSingle(seconds) / 60) * charge);
         }
@@ -189,18 +196,18 @@ namespace BillingMachine
         }
 
         //check whether call start is peak or not
-        internal bool IsStartPeak(TimeSpan time)
+        internal bool IsStartPeak(TimeSpan time, Package package)
         {
-            if (time >= _peakStart && time < _peakEnd)
+            if (time >= package.PeakStartTime && time < package.PeakEndTime)
                 return true;
             else
                 return false;
         }
 
         //check whether call end in peak or not
-        internal bool IsEndPeak(TimeSpan time)
+        internal bool IsEndPeak(TimeSpan time, Package package)
         {
-            if (time >= _peakStart && time < _peakEnd)
+            if (time >= package.PeakStartTime && time < package.PeakEndTime)
                 return true;
             else
                 return false;
@@ -214,11 +221,11 @@ namespace BillingMachine
         it will return 5 if it start in peek and end in peak after 12 hours
         it will return 6 if it start in off-peek and end in off-peak after 12 hours
         */
-        public int IsPeakCall(DateTime start, DateTime end)
+        public int IsPeakCall(DateTime start, DateTime end, Package package)
         {
-            if (IsStartPeak(start.TimeOfDay))
+            if (IsStartPeak(start.TimeOfDay, package))
             {
-                if (IsEndPeak(end.TimeOfDay))
+                if (IsEndPeak(end.TimeOfDay, package))
                 {
                     if ((end - start).Hours >= 12)
                         return 5;
@@ -230,7 +237,7 @@ namespace BillingMachine
             }
             else
             {
-                if (IsEndPeak(end.TimeOfDay))
+                if (IsEndPeak(end.TimeOfDay, package))
                     return 4;
                 else
                 {
