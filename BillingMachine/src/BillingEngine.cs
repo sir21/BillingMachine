@@ -84,7 +84,7 @@ namespace BillingMachine
                 }
             }
             //calling the method for add tax and calculate total bill
-            AddExternalCharges(bill, customer.PackageType.MonthlyRental);
+            AddExternalCharges(bill, customer.PackageType);
             if (_customers.Find(c => c.ID == cutomerID).Bills == null)
                 _customers.Find(c => c.ID == cutomerID).Bills = new List<Bill>();
 
@@ -108,7 +108,7 @@ namespace BillingMachine
         }
 
         //Adding aditional chargers like  rental fee, Discunts, taxes and finally calculating total bill
-        private Bill AddExternalCharges(Bill bill, double rental)
+        public Bill AddExternalCharges(Bill bill, Package package)
         {
             //getting list of call list into the separate list for calculating purposes
             ICollection<CallDetails> callLits = bill.CallList;
@@ -119,10 +119,12 @@ namespace BillingMachine
             {
                 bill.TotalCharges += item.Charge;
             }
-
-            bill.Rental = rental; //adding rental value
-            bill.Tax = Math.Round((bill.Rental + bill.TotalCharges) * _taxRate, 2); //calculating tax
             bill.TotalDiscount = 0; //calculating totla discount
+            if (bill.TotalCharges >= 1000 && (package.Name == "Package A" || package.Name == "Package B"))
+                bill.TotalDiscount = (bill.TotalCharges / 100) * 40;
+
+            bill.Rental = package.MonthlyRental; //adding rental value
+            bill.Tax = Math.Round((bill.Rental + bill.TotalCharges - bill.TotalDiscount) * _taxRate, 2); //calculating tax
             //Calculating total bill amount
             bill.BillAmount = Math.Round(bill.Rental + bill.Tax + bill.TotalCharges - bill.TotalDiscount, 2);
 

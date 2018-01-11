@@ -10,5 +10,6 @@ namespace BillingMachine
         List<Customer> Generate();
         List<double> ChargersCalculate(int cutomerID);
         Customer GetBills(string number);
+        Bill AddExternalCharges(Bill bill, Package package);
     }
 }

@@ -531,5 +531,44 @@ namespace BillingMachine.TDD.Tests
             //Assert
             Assert.AreEqual(expected, output, "Output is wrong");
         }
+
+        [TestMethod]
+        public void OnAddingAdditionalChargers_Reduce40PrecentFromPackageA_B()
+        {
+            //Arrange
+            double expected = 480;
+            Bill input_bill = new Bill
+            {
+                Tax = 0,
+                BillAmount = 0,
+                Rental = 0,
+                TotalDiscount = 0,
+                CallList = new List<CallDetails>
+                {
+                    new CallDetails{Charge = 300},
+                    new CallDetails{Charge = 300},
+                    new CallDetails{Charge = 600}
+                }
+            };
+
+            Package package = new Package
+            {
+                Name = "Package A",
+                MonthlyRental = 100,
+                BillingType = BillType.PerMinute,
+                ChargeLocalPeak = 3,
+                ChargeLocalOffPeak = 2,
+                ChargeLongPeak = 5,
+                ChargeLongOffPeak = 4,
+                PeakStartTime = new TimeSpan(8, 0, 0),
+                PeakEndTime = new TimeSpan(20, 0, 0)
+            };
+
+            //Act
+            Bill output = _sut.AddExternalCharges(input_bill, package);
+
+            //Assert        
+            Assert.AreEqual(expected, input_bill.TotalDiscount, "Not matching values");
+        }
     }
 }

@@ -189,7 +189,10 @@ namespace BillingMachine
             else
             {
                 if (package.Name == "Package C")
+                {
                     startTime = FreeCallTime(startTime, endTime, _callDiscountDurationForPackageC);
+                    duration -= _callDiscountDurationForPackageC;
+                }
                 return GenaratineCallCharge(0, package, duration, startTime, endTime, false, true);
             }
         }
