@@ -124,7 +124,7 @@ namespace BillingMachine
                 bill.TotalDiscount = (bill.TotalCharges / 100) * 40;
 
             bill.Rental = package.MonthlyRental; //adding rental value
-            bill.Tax = Math.Round((bill.Rental + bill.TotalCharges - bill.TotalDiscount) * _taxRate, 2); //calculating tax
+            bill.Tax = Math.Round((bill.Rental + bill.TotalCharges) * _taxRate, 2); //calculating tax
             //Calculating total bill amount
             bill.BillAmount = Math.Round(bill.Rental + bill.Tax + bill.TotalCharges - bill.TotalDiscount, 2);
 
@@ -143,6 +143,16 @@ namespace BillingMachine
             Customer customer =  customers.Find(cstmr => cstmr.Number.Extention == ext && cstmr.Number.Unique == unq);
 
             return customer;
+        }
+
+        public List<Customer> Generate(string customerCSV, string cdrCSV, string packageCSV)
+        {
+            _csvRead.setCSVFils(customerCSV, cdrCSV, packageCSV);
+            _packages = _csvRead.ReadPackages();
+            _cdrs = _csvRead.ReadCDRs();
+            _customers = _csvRead.ReadCustomers(_packages);
+
+            return Generate();
         }
     }
 }

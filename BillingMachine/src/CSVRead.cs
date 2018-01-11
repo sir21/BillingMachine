@@ -8,7 +8,17 @@ namespace BillingMachine
 { 
     public class CSVRead: ICSVRead
     {
-        string cusFilePath, cdrFilePath, packageFilePath;
+        private string cusFilePath, cdrFilePath, packageFilePath;
+
+        public void setCSVFils(string cusCSV, string cdrCSV, string pkgCSV)
+        {
+            if(cusCSV != "")
+                cusFilePath = cusCSV;
+            if(cdrCSV != "")
+                cdrFilePath = cdrCSV;
+            if(pkgCSV != "")
+                packageFilePath = pkgCSV;
+        }
 
         public CSVRead()
         {

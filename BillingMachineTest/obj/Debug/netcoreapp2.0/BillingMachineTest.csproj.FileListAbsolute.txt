@@ -1,0 +1,16 @@
+C:\Users\sir\source\repos\BillingMachine\BillingMachineTest\bin\Debug\netcoreapp2.0\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\Users\sir\source\repos\BillingMachine\BillingMachineTest\bin\Debug\netcoreapp2.0\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\Users\sir\source\repos\BillingMachine\BillingMachineTest\bin\Debug\netcoreapp2.0\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\Users\sir\source\repos\BillingMachine\BillingMachineTest\bin\Debug\netcoreapp2.0\BillingMachineTest.deps.json
+C:\Users\sir\source\repos\BillingMachine\BillingMachineTest\bin\Debug\netcoreapp2.0\BillingMachineTest.runtimeconfig.json
+C:\Users\sir\source\repos\BillingMachine\BillingMachineTest\bin\Debug\netcoreapp2.0\BillingMachineTest.runtimeconfig.dev.json
+C:\Users\sir\source\repos\BillingMachine\BillingMachineTest\bin\Debug\netcoreapp2.0\BillingMachineTest.dll
+C:\Users\sir\source\repos\BillingMachine\BillingMachineTest\bin\Debug\netcoreapp2.0\BillingMachineTest.pdb
+C:\Users\sir\source\repos\BillingMachine\BillingMachineTest\bin\Debug\netcoreapp2.0\BillingMachine.dll
+C:\Users\sir\source\repos\BillingMachine\BillingMachineTest\bin\Debug\netcoreapp2.0\BillingMachine.pdb
+C:\Users\sir\source\repos\BillingMachine\BillingMachineTest\obj\Debug\netcoreapp2.0\BillingMachineTest.csprojResolveAssemblyReference.cache
+C:\Users\sir\source\repos\BillingMachine\BillingMachineTest\obj\Debug\netcoreapp2.0\BillingMachineTest.csproj.CoreCompileInputs.cache
+C:\Users\sir\source\repos\BillingMachine\BillingMachineTest\obj\Debug\netcoreapp2.0\BillingMachineTest.AssemblyInfoInputs.cache
+C:\Users\sir\source\repos\BillingMachine\BillingMachineTest\obj\Debug\netcoreapp2.0\BillingMachineTest.AssemblyInfo.cs
+C:\Users\sir\source\repos\BillingMachine\BillingMachineTest\obj\Debug\netcoreapp2.0\BillingMachineTest.dll
+C:\Users\sir\source\repos\BillingMachine\BillingMachineTest\obj\Debug\netcoreapp2.0\BillingMachineTest.pdb
